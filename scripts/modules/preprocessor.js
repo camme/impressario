@@ -2,9 +2,9 @@ define(['templates'], function(templates) {
 
     var template = templates.getHtml("#field-row");
 
-    function parse(input) {
+    function parse(input, callback) {
         input = input.replace(/(\[.*\]\[.*\])/gi, "<div class='field-row'>$1</div>")
-        return input;
+        callback(input);
     }
 
     return {

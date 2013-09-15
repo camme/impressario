@@ -5,6 +5,7 @@ body {
   min-height: 100%;
 }
 #full {
+  transition: all 0.5s ease-out;
   position: fixed;
   padding: 13px 15px 10px;
   background-color: #ccc;
@@ -20,15 +21,23 @@ body {
   z-index: 1000000;
 }
 #full:hover {
-  background-color: #add8e6;
+  background-color: #3d5cc7;
+  color: #fff;
+}
+#full.activated {
+  opacity: 0.03;
+}
+#full.activated:hover {
+  opacity: 1;
 }
 #author-area {
   font: 100%/120% Aria, Helvetica, sans-serif;
   position: absolute;
   display: none;
-  width: 50%;
+  width: 40%;
   height: 100%;
-  background-color: #fffad5;
+  background-color: #efefef;
+  box-shadow: 5px 0px 10px rgba(0,0,0,0.1);
   opacity: 0.9;
   top: 0;
   left: 0;
@@ -38,7 +47,7 @@ body {
   border: 0;
   background-color: transparent;
   width: 100%;
-  height: 100%;
+  height: 90%;
   outline: none;
   resize: none;
   box-sizing: border-box;
@@ -55,16 +64,17 @@ body {
 #slots {
   height: 40px;
   width: 100%;
-  background-color: #ffd34e;
+  background-color: #bdd4de;
   display: flex;
 }
 #slots-list {
   height: 40px;
-  background-color: #db9e36;
+  background-color: color_slots_active;
   display: flex;
 }
 #new-slot {
-  background-color: #bd4932;
+  background-color: #373479;
+  color: #bdd4de;
   line-height: 40px;
 }
 .slot {
@@ -75,11 +85,11 @@ body {
   align-items: center;
 }
 .slot:nth-child(2n + 1) {
-  background-color: #e9af00;
+  background-color: #a2c2d0;
 }
 .slot.active {
-  background-color: #105b63;
-  color: #ffd34e;
+  background-color: #375d6e;
+  color: #bdd4de;
 }
 #impress-org {
   display: none;
@@ -95,6 +105,9 @@ body {
 .slide object {
   padding-left: 0.8em;
   max-height: 4em;
+}
+.slide svg {
+  padding-left: 0.8em;
 }
 .slide.past {
   opacity: 0.15;

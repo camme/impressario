@@ -3,19 +3,39 @@ require([
     'slots', 
     'modules/preprocessor', 
     'modules/classer',
+    'modules/importsvg',
+    'modules/nbsp',
     'modules/markdownlight',
     'modules/slide',
     'lib/domready'
-    ], function(ignore, slots, pre, classer, markdownlight, slide, domready) {
+    ], function(ignore, slots, pre, classer, importsvg, nbsp, markdownlight, slide, domready) {
 
     var full = localStorage.full == "true";
-    var extenders = [pre, slide, classer, markdownlight];
+    var extenders = [nbsp, markdownlight, slide, classer, importsvg];
     var impressCounter = -1;
     var impressAPI = null;
 
     function Editor(input, impressOrgDom) {
 
         var oldActive = false;
+
+        var runParsers = function(extenders, html, callback) {
+
+            var extender = extenders.shift();
+            if (extender) {
+
+                extender.parse(html, function(html) {
+
+                    runParsers(extenders, html, callback);
+
+                });
+
+            }
+            else {
+                callback(html);
+            }
+
+        }
 
         var update = function (event) {
 
@@ -32,10 +52,10 @@ require([
 
             var html = input.value;
 
-            for(var i = 0, ii = extenders.length; i < ii; i++){
-                var extender = extenders[i];
-                html = extender.parse(html);
-            }
+            var extenderList = extenders.concat([]);
+
+
+            runParsers(extenderList, input.value, function(html) {
 
             impressCounter++;
 
@@ -54,12 +74,16 @@ require([
 
             move();
 
+
+            });
+            
         };
 
         var move = function() {
             var active = getSlideNr(input.selectionStart);
             if (oldActive !== active) {
-                impressAPI.goto(active);
+                location.href = "#/step-" + (active + 1)
+                //impressAPI.goto(active);
                 oldActive = active;
             }
         }
@@ -85,7 +109,7 @@ require([
             keyupTimeout = setTimeout(function() {
                 update(event);
                 slots.save(input.value);
-            }, 200);
+            }, 300);
 
         }, false);
 
@@ -113,6 +137,8 @@ require([
 
         new Editor($("edit"), $("impress-org"));
 
+        setMode(full);
+
     });
 
 
@@ -121,12 +147,16 @@ require([
         if (full) {
             $("author-area").style.display = "none";
             $("full").innerHTML = "SHOW EDIT";
+            $("full").setAttribute("class", "activated");
             document.querySelector("#impress-" + impressCounter).style.left = "50%";
         }
         else {
             $("author-area").style.display = "block";
             $("full").innerHTML = "HIDE EDIT";
-            document.querySelector("#impress-" + impressCounter).style.left = "75%";
+            $("full").setAttribute("class", "");
+            if (document.querySelector("#impress-" + impressCounter)) {
+                document.querySelector("#impress-" + impressCounter).style.left = "70%";
+            }
         }
 
         if (impressAPI) {
@@ -135,7 +165,6 @@ require([
 
     }
 
-    setMode(full);
 
 
 

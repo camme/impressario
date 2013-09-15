@@ -2,7 +2,7 @@ define(['templates'], function(templates) {
 
     var template = templates.getHtml("#field-slide");
 
-    function parse(input) {
+    function parse(input, callback) {
 
         var slides = input.split("---");
 
@@ -10,12 +10,14 @@ define(['templates'], function(templates) {
         var posY = 0;
         var posX = 0;
         var rotateZ = 0;
+        var rotateX = 0;
+        var rotateY = 0;
 
         for(var i = 0, ii = slides.length; i < ii; i++){
 
             var slide = slides[i];
 
-            var posRe = /^([,\dR\-LDUZ]+)/g;
+            var posRe = /^([,\dR\-LDUZXY]+)/g;
             var posInfoMatch = slide.match(posRe);
             var posInfo = posInfoMatch ? posInfoMatch[0] : "D";
 
@@ -36,6 +38,8 @@ define(['templates'], function(templates) {
 
                 switch(command) {
                     case "RZ": rotateZ += (value ? value : 0); break;
+                    case "RX": rotateX += (value ? value : 0); break;
+                    case "RY": rotateX += (value ? value : 0); break;
                     case "R": posX += (value ? value : 1000); break;
                     case "L": posX -= (value ? value : 1000); break;
                     case "U": posY -= (value ? value : 1000); break;
@@ -49,12 +53,14 @@ define(['templates'], function(templates) {
             slideHtml = slideHtml.replace("{{y}}", posY);
             slideHtml = slideHtml.replace("{{x}}", posX);
             slideHtml = slideHtml.replace("{{rotate-z}}", rotateZ);
+            slideHtml = slideHtml.replace("{{rotate-x}}", rotateX);
+            slideHtml = slideHtml.replace("{{rotate-y}}", rotateY);
 
 
             output += slideHtml;
         }
 
-        return output;
+        callback(output);
 
     }
 

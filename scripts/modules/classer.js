@@ -1,6 +1,6 @@
 define(['templates'], function(templates) {
 
-    function parse(input) {
+    function parse(input, callback) {
 
         var output = input;
 
@@ -8,7 +8,7 @@ define(['templates'], function(templates) {
         leftTemplate = leftTemplate.replace("{{content}}", "$1");
         output = output.replace(/^!L(.*?)$/gm, leftTemplate);
 
-        return output;
+        callback(output);
 
     }
 
