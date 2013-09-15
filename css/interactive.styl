@@ -1,0 +1,147 @@
+color_edit_back = #fffad5
+color_slots_active = #db9e36
+color_new_slot = #bd4932
+color_slot_list = #ffd34e
+color_slot_active = #105b63
+
+main-font()
+    font: 100%/120% Aria, Helvetica, sans-serif;
+
+html, body
+    margin 0
+    width 100%
+    min-height 100%
+
+#full
+    position fixed
+    padding 13px 15px 10px
+    background-color #ccc
+    main-font()
+    font-weight bold
+    right 20px
+    top 20px
+    opacity .5
+    font-size 20px
+    width 100px
+    text-align center
+    cursor pointer
+    z-index 1000000
+    &:hover
+        background-color lightblue
+
+#author-area
+    main-font()
+    position absolute
+    display none
+    width 50%
+    height 100%
+    background-color color_edit_back
+    opacity .9
+    top 0
+    left 0
+    z-index 100000
+    
+#edit
+    border 0
+    background-color transparent
+    width 100%
+    height 100%
+    outline none
+    resize none
+    box-sizing border-box
+    main-font()
+    font-size 20px
+    font-family arial
+    padding 2em
+
+#tools
+    font-size 20px
+    font-weight bold
+    line-height 44px
+
+#slots
+    height 40px
+    width 100%
+    background-color color_slot_list
+    display flex
+
+#slots-list
+    height 40px
+    background-color color_slots_active
+    display flex
+
+#new-slot
+    background-color color_new_slot
+    line-height 40px
+
+.slot
+    cursor pointer
+    width 40px
+    height 40px
+    text-align center
+    align-items center
+
+    &:nth-child(2n + 1)
+        background-color darken(color_slot_list, 30%)
+        
+    &.active 
+        background-color color_slot_active
+        color color_slot_list
+    
+
+
+
+
+
+
+#impress-org
+    display none
+
+.slide 
+    transition all 0.5s ease-out
+
+    .inner
+        display flex
+        align-items center
+
+    img, object
+        padding-left .8em
+        max-height 4em
+
+    &.past
+        opacity .15
+
+.slide:nth-child(2n + 1)
+    .inner
+        flex-direction row-reverse
+        img, object
+            padding-left 0
+            padding-right .8em
+
+
+.field-row
+    display flex
+
+    .field
+        flex 1
+        display flex
+        padding-right 1em
+        &:last-child
+            padding-right 0
+
+.field
+    flex 1
+    display flex
+    label
+        min-width 100px
+    input 
+        min-width 50px
+        flex 1
+    select
+        margin-left .3em
+        margin-top 5px
+        font-size 1.7em
+        flex 1
+
+.save-bar
+    float right
