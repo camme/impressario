@@ -3,9 +3,10 @@ define(['templates'], function(templates) {
     function parse(input, callback) {
 
         var output = input;
-        console.log(output);
-        output = output.replace(/^#(.*?)$/gm, "<h1>$1</h1>");
 
+        output = output.replace(/^#(.*?)$/gm, "<h1>$1</h1>");
+        output = output.replace(/\*\*(.*?)\*\*/gm, "<strong>$1</strong>");
+        output = output.replace(/\*(.*?)\*/gm, "<em>$1</em>");
 
         output = output.replace(/!\[(\w+)\]\((.*?)\)/gm, "<img src='$2' alt='$1' />");
         output = output.replace(/!\((.*?\.svg.*?)\)/gm, "<object data='$1' type='image/svg+xml' alt=''></object>");

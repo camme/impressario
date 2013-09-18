@@ -16,7 +16,25 @@ define(['templates'], function(templates) {
 
         slots.push(content);
 
+	// make the new slot active
+	localStorage.activeSlot = slots.length - 1;
+
         localStorage.slots = JSON.stringify(slots);
+
+	renderSlots();
+
+	// unmark the active one
+	var activeSlot = document.querySelector(".slot-item.active");
+	if (activeSlot) {
+		var current = activeSlot.getAttribute("class");
+		activeSlot.setAttribute("class", current.replace(/active/g, ''));
+	}
+
+
+	var current = document.querySelectorAll(".slot-item")[localStorage.activeSlot];
+	var currentClasses = current.getAttribute("class");
+	current.setAttribute("class", currentClasses + " active");
+
 
     }
 
@@ -39,33 +57,7 @@ define(['templates'], function(templates) {
 
             container.appendChild(slotDom);
 
-        }
-
-    }
-
-    function load(slotId) {
-        var slots = loadAll();
-        var slot = slots[slotId];
-        return slot;
-    }
-
-
-    function display(dataContainerRef) {
-
-        dataContainer = dataContainerRef;
-
-        renderSlots();
-
-        document.querySelector("#new-slot").addEventListener("click", function() {
-            add(dataContainer.value);
-            renderSlots();
-        }, false);
-
-        var slotDoms = document.querySelectorAll(".slot-item");
-
-        for(var i = 0, ii = slotDoms.length; i < ii; i++){
-
-            slotDoms[i].addEventListener("click", function() {
+            slotDom.addEventListener("click", function() {
 
                 // unmark the active one
                 var activeSlot = document.querySelector(".slot-item.active");
@@ -84,6 +76,37 @@ define(['templates'], function(templates) {
                 localStorage.activeSlot = id;
 
             }, false);
+
+
+        }
+
+    }
+
+    function load(slotId) {
+        var slots = loadAll();
+        var slot = slots[slotId];
+        return slot;
+    }
+
+
+    function display(dataContainerRef) {
+
+        dataContainer = dataContainerRef;
+
+	var slots = loadAll();
+	if (slots.length == 0) {
+	    add(dataContainer.value);
+	}
+
+        renderSlots();
+
+        document.querySelector("#new-slot").addEventListener("click", function() {
+            add(dataContainer.value);
+        }, false);
+
+        var slotDoms = document.querySelectorAll(".slot-item");
+
+        for(var i = 0, ii = slotDoms.length; i < ii; i++){
 
         }
 
