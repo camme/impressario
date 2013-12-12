@@ -3,15 +3,16 @@ require([
     'slots', 
     'modules/preprocessor', 
     'modules/classer',
+    'modules/block',
     'modules/importsvg',
     'modules/nbsp',
     'modules/markdownlight',
     'modules/slide',
     'lib/domready'
-    ], function(ignore, slots, pre, classer, importsvg, nbsp, markdownlight, slide, domready) {
+    ], function(ignore, slots, pre, classer, block, importsvg, nbsp, markdownlight, slide, domready) {
 
     var full = localStorage.full == "true";
-    var extenders = [nbsp, markdownlight, slide, classer, importsvg];
+    var extenders = [block.pre, nbsp, markdownlight, slide, classer, importsvg, block.post];
     var impressCounter = -1;
     var impressAPI = null;
 
@@ -60,6 +61,8 @@ require([
             impressCounter++;
 
             impressOrgDom.innerHTML = html;
+
+	    
 
             impressDom = document.createElement("div");
             impressDom.setAttribute("id", "impress-" + impressCounter);

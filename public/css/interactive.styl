@@ -111,10 +111,18 @@ html, body
     .inner
         display flex
         align-items center
+    span
+        flex 1
+        display block
 
     img, object
+        height 7em
+    span+img, span+object
+        padding-right .8em
+
+    img+span, object+span
         padding-left .8em
-        max-height 4em
+
 
     &.past
         opacity .15
@@ -124,7 +132,10 @@ html, body
         flex-direction row-reverse
         img, object
             padding-left 0
-            padding-right .8em
+            padding-right 0
+    img+span, object+span
+        padding-right .8em
+
 
 
 .field-row
@@ -153,3 +164,16 @@ html, body
 
 .save-bar
     float right
+
+
+.slide
+    blockquote
+        font-size .5em
+        width 600px
+        font-style italic
+        font-weight 300
+        *
+            display inline
+
+
+

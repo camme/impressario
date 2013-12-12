@@ -21,3 +21,4 @@ define(['templates'], function(templates) {
     };
 
 });
+

@@ -17,11 +17,22 @@ define(['templates'], function(templates) {
 
             var slide = slides[i];
 
-            var posRe = /^([,\dR\-LDUZXY]+)/g;
+            var posRe = /(^(,|\s|\d|r|d|\-|u|l|rx(|=|-|:)|ry(|=|-|:)|rz(|=|-|:)|right|left|up|down|rotate-y(|=|-|:)\d+|rotate-x(|=|-|:)\d+|rotate\-z(|=|-|:)\d+)+?\n)/g;
             var posInfoMatch = slide.match(posRe);
             var posInfo = posInfoMatch ? posInfoMatch[0] : "D";
+	    posInfo = posInfo.replace(/\s/g, "");
+
+            posInfo = posInfo.replace(/right/, "r");
+            posInfo = posInfo.replace(/left/, "l");
+            posInfo = posInfo.replace(/up/, "u");
+            posInfo = posInfo.replace(/down/, "d");
+            posInfo = posInfo.replace(/rotate-y/, "ry");
+            posInfo = posInfo.replace(/rotate-x/, "rx");
+            posInfo = posInfo.replace(/rotate-z/, "rz");
 
             slide = slide.replace(posRe, '');
+
+            
 
             var slideHtml = template;
             slideHtml = slideHtml.replace("{{content}}", slide);
@@ -34,15 +45,15 @@ define(['templates'], function(templates) {
 
                 var valueMatch = (/([\d-]+)/g).exec(fullCommand);
                 var value = valueMatch ? parseInt(valueMatch[1]) : null;
-                var command = fullCommand.replace(/([-\d]+)/g, '');
+                var command = fullCommand.replace(/([:-\d=]+)/g, '');
 
                 switch(command) {
-                    case "RZ": rotateZ += (value ? value : 0); break;
-                    case "RX": rotateX += (value ? value : 0); break;
-                    case "RY": rotateX += (value ? value : 0); break;
-                    case "R": posX += (value ? value : 1000); break;
-                    case "L": posX -= (value ? value : 1000); break;
-                    case "U": posY -= (value ? value : 1000); break;
+                    case "rz": rotateZ += (value ? value : 0); break;
+                    case "rx": rotateX += (value ? value : 0); break;
+                    case "ry": rotateX += (value ? value : 0); break;
+                    case "r": posX += (value ? value : 1000); break;
+                    case "l": posX -= (value ? value : 1000); break;
+                    case "u": posY -= (value ? value : 1000); break;
                     default: posY += (value ? value : 800);
                 }
 
